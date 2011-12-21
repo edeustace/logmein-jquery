@@ -35,9 +35,13 @@ See the example - its pretty straightforward.
 
 
 # Building source
-- you need coffeescript on your $PATH
+- you need coffeescript on your ```$PATH```
+
     $ cd logmein/
+    
     $ ./scripts/create_js_lib
+    
 
 To build as you develop:
+
     $ ./scripts/watch_src
