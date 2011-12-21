@@ -1,9 +1,9 @@
 # Introduction
 A simple login component. Saves you from re-inventing the wheel each time you need a neat little login box.
 
-(Here's an example)[http://edeustace.com/logmein/]
+[Here's an example](http://edeustace.com/logmein/)
 
-(Tests are here)[http://edeustace.com/logmein/test/SpecRunner.html]
+[Tests are here](http://edeustace.com/logmein/test/SpecRunner.html)
 
 # Usage
 
