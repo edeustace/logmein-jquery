@@ -1,5 +1,5 @@
 #!/bin/bash
-file="inplace.image.changer-with.deps"
+file="logmein"
 echo $file
 joined="lib/$file.js"
 echo $joined
