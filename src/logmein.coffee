@@ -1,11 +1,11 @@
 window.com || (window.com = {})
 com.ee || (com.ee = {})
 ###
-Simple login component.
-displays a login link, then turns into 2 input fields. hitting enter in the password field 
-completes the login.
+Simple username component.
+displays a username link, then turns into 2 input fields. hitting enter in the password field 
+completes the username.
 
-the config object can contains login and logout callbacks that will be invoked after
+the config object can contains username and logout callbacks that will be invoked after
 receiving a response from the server.
 ###
 class @com.ee.LogMeIn
@@ -16,12 +16,13 @@ class @com.ee.LogMeIn
   ###
   constructor: (element, config)->
 
+    uid = Math.floor( Math.random() * 10000 )
+    console.log uid
     @ENTER = 13
     @TAB = 9
     
-    loginValue = "username"
     template = """
-    <input id='login' type="text" value="#{loginValue}"></input>
+    <input id='username' type="text" value="username"></input>
     <input id='password' type="password" value="password"></input>
     """
     @$element = $(element)
@@ -37,12 +38,22 @@ class @com.ee.LogMeIn
       logoutCallback: @_logoutCallback
       isLoggedIn: false
       template : template
+      loginLabel : "login"
+      logoutLabel : "logout"
       errorTemplate :  """<span><br/>${message}</span>"""
-      loginValue : loginValue
 
+    
     @config = if config? then $.extend defaultConfig, config else defaultConfig
     
-    if @config.isLoggedIn then @addLogoutLink() else @addLoginLink()
+
+    getUsernameValueFromTemplate = (template) ->
+      matches = template.match /type="text" value="(.*?)"/
+      matches[1]
+
+    @usernameValue = getUsernameValueFromTemplate @config.template
+    console.log "username value: #{@usernameValue}"
+
+    if @config.isLoggedIn then @addLogoutLink() else @addusernameLink()
     
 
   showError: (message) ->
@@ -55,14 +66,14 @@ class @com.ee.LogMeIn
     @$element.find("#errorMessage").remove()
     null
 
-  addLoginLink: ->
-    @_addLinkAndCallback @_loginUid, "login", @_onLoginClick
+  addusernameLink: ->
+    @_addLinkAndCallback @_loginUid, @config.loginLabel, @_onLoginClick
 
   _onLoginClick: (event)->
     @addInputs()
-    $login = @$element.find("#login")
-    $login.focus()
-    $login.attr 'value', ''
+    $username = @$element.find("#username")
+    $username.focus()
+    $username.attr 'value', ''
     null
  
   _loginCallback: (response) ->
@@ -84,16 +95,19 @@ class @com.ee.LogMeIn
     null
 
   _addLinkAndCallback: (uid, label, callback) ->
+    if !callback? 
+      throw "callback not defined"
+    
     link = """<a id="#{uid}" href="javascript:void(0)">#{label}</a>"""
     @$element.html link
-    $("##{uid}").click (event) => 
+    @$element.find("##{uid}").click (event) => 
       callback.call this, event
     null;
 
   _logoutCallback: (response) ->
     data = @_parseResponse response
     if data.status == "success"
-      @addLoginLink()
+      @addusernameLink()
     null
 
   _parseResponse: (response) -> if typeof(response) == "string" then $.parseJSON(response) else response
@@ -106,11 +120,10 @@ class @com.ee.LogMeIn
     
     @$element.html processedTemplate
 
-    $login = @$element.find "#login"
-    loginValue = @config.loginValue
-    $login
+    $username = @$element.find "#username"
+    $username
       .click ->
-        if $(this).attr('value') == loginValue
+        if $(this).attr('value') == @usernameValue
           $(this).attr 'value', ''
         null
       .keydown (event)=>
@@ -132,10 +145,10 @@ class @com.ee.LogMeIn
     password: password
     
   _login: ->
-    login = @$element.find('#login').attr 'value'
+    username = @$element.find('#username').attr 'value'
     password = @$element.find("#password").attr 'value'
     
-    params = @config.buildParams login, password
+    params = @config.buildParams username, password
 
     if !@config.loginUrl?
       throw "no login url provided"
@@ -156,9 +169,9 @@ class @com.ee.LogMeIn
     rawString = $input.clone().wrap('<div>').parent().html();
     inputString = process rawString 
 
-    $input.remove()
     
-    $(inputString).insertAfter @$element.find '#login'
+    $(inputString).insertAfter $input
+    $input.remove()
     
     $newPassword = @$element.find '#password'
     $newPassword.focus()
@@ -178,7 +191,10 @@ register with jQuery
 ###
 jQuery.fn.logMeIn = (options)->
   this.each (index)->
-    if !jQuery(this).data('com_ee_logmein')
-      jQuery(this).data('com_ee_logmein', new com.ee.LogMeIn(this,options))
+    console.log this
+    new com.ee.LogMeIn(this, options);
+    null
+    #if !jQuery(this).data('com_ee_logmein')
+    #  jQuery(this).data('com_ee_logmein', new com.ee.LogMeIn(this,options))
   this
 

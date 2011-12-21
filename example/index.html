@@ -1,23 +1,55 @@
 <html>
   <head>
+
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8"/>
+      
     <script src="js/jquery-1.7.1.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/logmein.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/logMeIn.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" charset="utf-8">
       $(document).ready(function(){
-          $("#logmein").logMeIn({
+          $("#logMeIn").logMeIn({
               isLoggedIn: false,
               loginUrl: "login.php",
               logoutUrl: "logout.php"
               
+              });
+
+          var customTemplate = '<div>';
+          customTemplate += '<input id="username" type="text" value="username"></input>';
+          customTemplate += '<br/>';
+          customTemplate += '<input id="password" type="password" value="password"></input>';
+          customTemplate += '<br/>';
+          customTemplate += '<div class="helpLinks">';
+          customTemplate += '<a class="miniLink" href="forgot.php">forgot password?</a>';
+          customTemplate += '</div>';
+          customTemplate += '</div>';
+          
+          var errorTemplate = '<div id="errorMessage">${message}</div>'
+          $("#logMeInFunky").logMeIn({
+              isLoggedIn: false,
+              loginUrl: "login.php",
+              logoutUrl: "logout.php",
+              template: customTemplate,
+              errorTemplate: errorTemplate
           });
+
       });
     </script>
   </head>
   <body>
     <header>
-      Log me in example
+    <h1>LogMeIn Example</h1>
+      Username password is test/password
     </header>
-  </body>
+    <div id="content">
+      
+      <h2>Bare version</h2>
+      <div id="logMeIn"></div>
 
-  <div id="logmein"></div>
+      <h2>Styled version</h2>
+        <div id="loginBox">
+          <div id="logMeInFunky"></div>
+        </div>
+    </div>
+  </body>
 </html>
