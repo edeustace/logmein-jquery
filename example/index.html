@@ -9,8 +9,8 @@
       $(document).ready(function(){
           $("#logMeIn").logMeIn({
               isLoggedIn: false,
-              loginUrl: "login.php",
-              logoutUrl: "logout.php"
+              loginUrl: "login",
+              logoutUrl: "logout"
               
               });
 
@@ -27,8 +27,8 @@
           var errorTemplate = '<div id="errorMessage">${message}</div>'
           $("#logMeInFunky").logMeIn({
               isLoggedIn: false,
-              loginUrl: "login.php",
-              logoutUrl: "logout.php",
+              loginUrl: "login",
+              logoutUrl: "logout",
               template: customTemplate,
               errorTemplate: errorTemplate
           });

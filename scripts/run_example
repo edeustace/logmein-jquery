@@ -1,9 +1,7 @@
 #!/bin/bash
-pwd
-mkdir example/src/main/webapp/uploads
+./scripts/create_js_lib
+cp lib/*.js example/js
 coffee --compile --output example/src/main/webapp/js/ src/
-cd example
-mvn install
-mvn jetty:run
-echo "running server go to: http://localhost:8080"
+echo "running script..."
+coffee server.coffee
 

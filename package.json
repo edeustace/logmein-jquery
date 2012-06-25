@@ -1,0 +1,21 @@
+{
+  "author": "",
+  "name": "test-player",
+  "version": "0.0.1",
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/edeustace/logmein-jquery"
+    },
+  "dependencies": {
+      "express":"2.5.9",
+      "stitch":"0.3.3",
+      "coffee-script":"1.3.1"
+    },
+  "devDependencies": {
+      "coffee-script":"1.3.1"
+    },
+  "engines": {
+      "node": ">= 0.6.0"
+    }
+}
+
