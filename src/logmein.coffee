@@ -22,8 +22,8 @@ class @com.ee.LogMeIn
     @TAB = 9
     
     template = """
-    <input id='username' type="text" value="username"></input>
-    <input id='password' type="password" value="password"></input>
+    <input id='username' type="text" placeholder="username"></input>
+    <input id='password' type="password" placeholder="password"></input>
     """
     @$element = $(element)
 
@@ -41,17 +41,8 @@ class @com.ee.LogMeIn
       loginLabel : "login"
       logoutLabel : "logout"
       errorTemplate :  """<span><br/>${message}</span>"""
-
     
     @config = if config? then $.extend defaultConfig, config else defaultConfig
-    
-
-    getUsernameValueFromTemplate = (template) ->
-      matches = template.match /type="text" value="(.*?)"/
-      matches[1]
-
-    @usernameValue = getUsernameValueFromTemplate @config.template
-    console.log "username value: #{@usernameValue}"
 
     if @config.isLoggedIn then @addLogoutLink() else @addusernameLink()
     
@@ -73,7 +64,7 @@ class @com.ee.LogMeIn
     @addInputs()
     $username = @$element.find("#username")
     $username.focus()
-    $username.attr 'value', ''
+    #$username.attr 'value', ''
     null
  
   _loginCallback: (response) ->
@@ -122,10 +113,6 @@ class @com.ee.LogMeIn
 
     $username = @$element.find "#username"
     $username
-      .click ->
-        if $(this).attr('value') == @usernameValue
-          $(this).attr 'value', ''
-        null
       .keydown (event)=>
         @_removeError()
         if @_keyCodeMatches @TAB, event
